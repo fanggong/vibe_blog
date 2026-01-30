@@ -45,6 +45,6 @@ jobs:
         run: |
           rsync -az --delete --chmod=Du=rwx,Dgo=rx,Fu=rw,Fgo=r \
             -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=yes" \
-            public/ "${SSH_USER}@${SSH_HOST}:/srv/vibe_blog/"
+            . "${SSH_USER}@${SSH_HOST}:/srv/vibe_blog/"
 
 
