@@ -136,7 +136,7 @@ obj^{(t)} = \sum_{j=1}^T \left[ G_j\omega_j + {1 \over 2}(H_j + \lambda)\omega_j
 $$
 对于任意的$j$，上式是一个关于$\omega_j$的二次多项式，故可以得到当$\omega_j = - {G_j \over H_j + \lambda}$时，目标函数取到最小值，为：
 $$
-- {1 \over 2} \sum_{j=1}^T {G_j^2 \over H_j + \lambda} + \gamma T
+\displaystyle - {1 \over 2} \sum_{j=1}^T {G_j^2 \over H_j + \lambda} + \gamma T
 $$
 这里的$\omega_j,\ j=1,2,3,...,T$即为第t棵树上每个叶子节点的预测值。
 
@@ -160,5 +160,4 @@ $$
 
 1. **想出这些方法的人都是啥脑子呢？**  
 不知道
-
 
