@@ -1,0 +1,60 @@
+{{ define "main" }}
+{{ $isArticle := or (eq .Section "blog") (eq .Section "projects") }}
+{{ $hasToc := and $isArticle (gt (len .TableOfContents) 0) }}
+<div class="article-layout{{ if not $hasToc }} article-layout--single{{ end }}">
+  {{ if $hasToc }}
+    <aside class="article-sidebar">
+      <nav class="toc" aria-label="Table of contents">
+        <div class="toc__title" data-ui-i18n data-i18n="toc_title">{{ i18n "toc_title" }}</div>
+        {{ .TableOfContents }}
+      </nav>
+    </aside>
+  {{ end }}
+  <article class="article{{ if not $isArticle }} article--wide{{ end }}">
+    <header class="article__header">
+      <h1 class="article__title">{{ .Title }}</h1>
+      {{ if $isArticle }}
+        {{ $cats := .Params.categories }}
+        {{ if or .Date $cats }}
+          <div class="article__meta-row">
+            {{ with .Date }}<time class="article__meta" datetime="{{ .Format "2006-01-02" }}">{{ .Format "2006-01-02" }}</time>{{ end }}
+            {{ if and .Date $cats }}<span class="article__meta-sep">·</span>{{ end }}
+            {{ with $cats }}
+              <span class="article__tags">
+                {{ range $i, $cat := . }}{{ if $i }}<span class="article__tag-sep">/</span>{{ end }}<span class="article__tag">{{ $cat }}</span>{{ end }}
+              </span>
+            {{ end }}
+          </div>
+        {{ end }}
+        {{ with .Params.description }}<p class="article__desc">{{ . }}</p>{{ end }}
+      {{ end }}
+
+      {{ if eq .Section "projects" }}
+        <dl class="meta-list">
+          {{ with .Params.role }}
+            <div class="meta-list__row">
+            <dt data-i18n="project_role">{{ i18n "project_role" }}</dt>
+              <dd>{{ . }}</dd>
+            </div>
+          {{ end }}
+          {{ with .Params.stack }}
+            <div class="meta-list__row">
+            <dt data-i18n="project_stack">{{ i18n "project_stack" }}</dt>
+              <dd>{{ . }}</dd>
+            </div>
+          {{ end }}
+          {{ with .Params.link }}
+            <div class="meta-list__row">
+            <dt data-i18n="project_link">{{ i18n "project_link" }}</dt>
+              <dd><a href="{{ . }}" rel="noreferrer">{{ . }}</a></dd>
+            </div>
+          {{ end }}
+        </dl>
+      {{ end }}
+    </header>
+    <div class="article__content">
+      {{ .Content }}
+    </div>
+  </article>
+</div>
+{{ end }}

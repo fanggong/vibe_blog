@@ -1,0 +1,110 @@
+{{ define "main" }}
+<section class="home-line">
+  <p class="home-line__text">{{ .Site.Params.home_line }}</p>
+</section>
+
+{{ $blogMap := dict }}
+{{ $projectMap := dict }}
+{{ range .Sites }}
+  {{ with .GetPage "blog" }}
+    {{ $blogMap = merge $blogMap (dict .Site.Language.Lang .RelPermalink) }}
+  {{ end }}
+  {{ with .GetPage "projects" }}
+    {{ $projectMap = merge $projectMap (dict .Site.Language.Lang .RelPermalink) }}
+  {{ end }}
+{{ end }}
+{{ $blogAttrs := "" }}
+{{ range $lang, $url := $blogMap }}
+  {{ $blogAttrs = printf "%s data-ui-url-%s=\"%s\"" $blogAttrs $lang $url }}
+{{ end }}
+{{ $projectAttrs := "" }}
+{{ range $lang, $url := $projectMap }}
+  {{ $projectAttrs = printf "%s data-ui-url-%s=\"%s\"" $projectAttrs $lang $url }}
+{{ end }}
+
+<section class="home-section">
+  <div class="home-section__header">
+    <h2 class="home-section__title" data-ui-i18n data-i18n="latest_posts">{{ i18n "latest_posts" }}</h2>
+    <a class="home-section__link" href="{{ "blog/" | relLangURL }}" data-ui-i18n data-i18n="view_all"{{ $blogAttrs | safeHTMLAttr }}>{{ i18n "view_all" }}</a>
+  </div>
+  <div class="list">
+    {{ $posts := where .Site.RegularPages "Section" "blog" }}
+    {{ if not $posts }}
+      {{ $posts = slice }}
+      {{ range .Sites }}
+        {{ range where .RegularPages "Section" "blog" }}
+          {{ $posts = $posts | append . }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+    {{ $posts = first 3 (sort $posts "Date" "desc") }}
+    {{ if $posts }}
+      {{ range $i, $p := $posts }}
+        {{ $delay := mul (add $i 1) 0.06 }}
+        <article class="card" style="--d: {{ printf "%.2fs" $delay }}">
+          <h3 class="card__title"><a href="{{ $p.RelPermalink }}" data-ui-keep>{{ $p.Title }}</a></h3>
+          {{ $cats := $p.Params.categories }}
+          {{ if or $p.Date $cats }}
+            <div class="card__meta-row">
+              {{ with $p.Date }}<time class="card__meta" datetime="{{ .Format "2006-01-02" }}">{{ .Format "2006-01-02" }}</time>{{ end }}
+              {{ if and $p.Date $cats }}<span class="card__meta-sep">·</span>{{ end }}
+              {{ with $cats }}
+                <span class="card__tags">
+                  {{ range $i, $cat := . }}{{ if $i }}<span class="card__tag-sep">/</span>{{ end }}<span class="card__tag">{{ $cat }}</span>{{ end }}
+                </span>
+              {{ end }}
+            </div>
+          {{ end }}
+          {{ $desc := $p.Params.description }}
+          <p class="card__summary">{{ if $desc }}{{ $desc }}{{ else }}{{ $p.Summary | plainify }}{{ end }}</p>
+        </article>
+      {{ end }}
+    {{ else }}
+      <p class="empty" data-ui-i18n data-i18n="no_posts">{{ i18n "no_posts" }}</p>
+    {{ end }}
+  </div>
+</section>
+
+<section class="home-section">
+  <div class="home-section__header">
+    <h2 class="home-section__title" data-ui-i18n data-i18n="latest_projects">{{ i18n "latest_projects" }}</h2>
+    <a class="home-section__link" href="{{ "projects/" | relLangURL }}" data-ui-i18n data-i18n="view_all"{{ $projectAttrs | safeHTMLAttr }}>{{ i18n "view_all" }}</a>
+  </div>
+  <div class="list">
+    {{ $projects := where .Site.RegularPages "Section" "projects" }}
+    {{ if not $projects }}
+      {{ $projects = slice }}
+      {{ range .Sites }}
+        {{ range where .RegularPages "Section" "projects" }}
+          {{ $projects = $projects | append . }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+    {{ $projects = first 3 (sort $projects "Date" "desc") }}
+    {{ if $projects }}
+      {{ range $i, $p := $projects }}
+        {{ $delay := mul (add $i 1) 0.06 }}
+        <article class="card" style="--d: {{ printf "%.2fs" $delay }}">
+          <h3 class="card__title"><a href="{{ $p.RelPermalink }}" data-ui-keep>{{ $p.Title }}</a></h3>
+          {{ $cats := $p.Params.categories }}
+          {{ if or $p.Date $cats }}
+            <div class="card__meta-row">
+              {{ with $p.Date }}<time class="card__meta" datetime="{{ .Format "2006-01-02" }}">{{ .Format "2006-01-02" }}</time>{{ end }}
+              {{ if and $p.Date $cats }}<span class="card__meta-sep">·</span>{{ end }}
+              {{ with $cats }}
+                <span class="card__tags">
+                  {{ range $i, $cat := . }}{{ if $i }}<span class="card__tag-sep">/</span>{{ end }}<span class="card__tag">{{ $cat }}</span>{{ end }}
+                </span>
+              {{ end }}
+            </div>
+          {{ end }}
+          {{ $desc := $p.Params.description }}
+          <p class="card__summary">{{ if $desc }}{{ $desc }}{{ else }}{{ $p.Summary | plainify }}{{ end }}</p>
+        </article>
+      {{ end }}
+    {{ else }}
+      <p class="empty" data-ui-i18n data-i18n="no_projects">{{ i18n "no_projects" }}</p>
+    {{ end }}
+  </div>
+</section>
+{{ end }}

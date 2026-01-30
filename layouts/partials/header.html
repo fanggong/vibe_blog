@@ -1,0 +1,33 @@
+<header class="header">
+  <div class="container header__inner">
+    {{ $homeMap := dict }}
+    {{ range .Sites }}
+      {{ $homeMap = merge $homeMap (dict .Language.Lang .Home.RelPermalink) }}
+    {{ end }}
+    {{ $homeAttrs := "" }}
+    {{ range $lang, $url := $homeMap }}
+      {{ $homeAttrs = printf "%s data-ui-url-%s=\"%s\"" $homeAttrs $lang $url }}
+    {{ end }}
+    <a class="brand" href="{{ .Site.Home.RelPermalink }}" data-seal="true"{{ $homeAttrs | safeHTMLAttr }}>{{ .Site.Title }}</a>
+    <nav class="nav" aria-label="Primary">
+      {{ range .Site.Menus.main }}
+        {{ $isCurrent := or ($.Page.IsMenuCurrent "main" .) ($.Page.HasMenuCurrent "main" .) }}
+        {{ $pageRef := .PageRef }}
+        {{ $map := dict }}
+        {{ if $pageRef }}
+          {{ range $.Sites }}
+            {{ with .GetPage $pageRef }}
+              {{ $map = merge $map (dict .Site.Language.Lang .RelPermalink) }}
+            {{ end }}
+          {{ end }}
+        {{ end }}
+        {{ $attrs := "" }}
+        {{ range $lang, $url := $map }}
+          {{ $attrs = printf "%s data-ui-url-%s=\"%s\"" $attrs $lang $url }}
+        {{ end }}
+        <a class="nav__link{{ if $isCurrent }} is-active{{ end }}" href="{{ .URL | relURL }}"{{ if $isCurrent }} aria-current="page"{{ end }}{{ with .Identifier }} data-ui-i18n data-i18n="{{ . }}"{{ end }}{{ $attrs | safeHTMLAttr }}>{{ .Name }}</a>
+      {{ end }}
+    </nav>
+    {{ partial "langswitch.html" . }}
+  </div>
+</header>

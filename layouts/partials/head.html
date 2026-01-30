@@ -1,0 +1,11 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} · {{ .Site.Title }}{{ end }}</title>
+<link rel="icon" href="{{ "avatar.jpg" | relURL }}" type="image/jpeg">
+{{ partial "meta.html" . }}
+{{ partial "styles.html" . }}
+{{ partial "math.html" . }}
+{{ partial "ui-lang.html" . }}
+<script defer src="{{ "js/footer-stick.js" | relURL }}"></script>
+<script defer src="{{ "js/code-blocks.js" | relURL }}"></script>
+<script defer src="{{ "js/brand-seal.js" | relURL }}"></script>

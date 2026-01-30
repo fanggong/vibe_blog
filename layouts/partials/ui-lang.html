@@ -1,0 +1,116 @@
+{{ $zh := readFile "i18n/zh.toml" | transform.Unmarshal }}
+{{ $ja := readFile "i18n/ja.toml" | transform.Unmarshal }}
+{{ $en := readFile "i18n/en.toml" | transform.Unmarshal }}
+{{ $translations := dict
+  "zh" (dict
+    "latest_posts" (index (index $zh "latest_posts") "other")
+    "latest_projects" (index (index $zh "latest_projects") "other")
+    "view_all" (index (index $zh "view_all") "other")
+    "no_posts" (index (index $zh "no_posts") "other")
+    "no_projects" (index (index $zh "no_projects") "other")
+    "no_content" (index (index $zh "no_content") "other")
+    "post_categories" (index (index $zh "post_categories") "other")
+    "toc_title" (index (index $zh "toc_title") "other")
+    "nav_home" (index (index $zh "nav_home") "other")
+    "nav_about" (index (index $zh "nav_about") "other")
+    "nav_blog" (index (index $zh "nav_blog") "other")
+    "nav_projects" (index (index $zh "nav_projects") "other")
+    "nav_contact" (index (index $zh "nav_contact") "other")
+  )
+  "ja" (dict
+    "latest_posts" (index (index $ja "latest_posts") "other")
+    "latest_projects" (index (index $ja "latest_projects") "other")
+    "view_all" (index (index $ja "view_all") "other")
+    "no_posts" (index (index $ja "no_posts") "other")
+    "no_projects" (index (index $ja "no_projects") "other")
+    "no_content" (index (index $ja "no_content") "other")
+    "post_categories" (index (index $ja "post_categories") "other")
+    "toc_title" (index (index $ja "toc_title") "other")
+    "nav_home" (index (index $ja "nav_home") "other")
+    "nav_about" (index (index $ja "nav_about") "other")
+    "nav_blog" (index (index $ja "nav_blog") "other")
+    "nav_projects" (index (index $ja "nav_projects") "other")
+    "nav_contact" (index (index $ja "nav_contact") "other")
+  )
+  "en" (dict
+    "latest_posts" (index (index $en "latest_posts") "other")
+    "latest_projects" (index (index $en "latest_projects") "other")
+    "view_all" (index (index $en "view_all") "other")
+    "no_posts" (index (index $en "no_posts") "other")
+    "no_projects" (index (index $en "no_projects") "other")
+    "no_content" (index (index $en "no_content") "other")
+    "post_categories" (index (index $en "post_categories") "other")
+    "toc_title" (index (index $en "toc_title") "other")
+    "nav_home" (index (index $en "nav_home") "other")
+    "nav_about" (index (index $en "nav_about") "other")
+    "nav_blog" (index (index $en "nav_blog") "other")
+    "nav_projects" (index (index $en "nav_projects") "other")
+    "nav_contact" (index (index $en "nav_contact") "other")
+  )
+}}
+<script>
+(function(){
+  function updateUiLinks(target){
+    if (!target) return;
+    document.querySelectorAll('[data-ui-url-' + target + ']').forEach(function(el){
+      var url = el.getAttribute('data-ui-url-' + target);
+      if (!url) return;
+      el.setAttribute('href', url);
+    });
+    document.querySelectorAll('[data-ui-keep]').forEach(function(el){
+      var href = el.getAttribute('href');
+      if (!href) return;
+      if (href.indexOf('#') === 0) return;
+      if (/^(https?:|mailto:|tel:)/i.test(href)) return;
+      if (href.indexOf('ui=') !== -1) return;
+      var parts = href.split('#');
+      var base = parts[0];
+      var hash = parts.length > 1 ? '#' + parts.slice(1).join('#') : '';
+      var joiner = base.indexOf('?') === -1 ? '?' : '&';
+      el.setAttribute('href', base + joiner + 'ui=' + encodeURIComponent(target) + hash);
+    });
+  }
+
+  function applyUiLang(){
+    var translations = {{ $translations | jsonify | safeJS }};
+    if (typeof translations === 'string') {
+      try { translations = JSON.parse(translations); } catch (e) {}
+    }
+    var params = new URLSearchParams(window.location.search);
+    var ui = params.get('ui');
+    var stored = null;
+    try { stored = localStorage.getItem('uiLang'); } catch (e) {}
+    var target = ui || stored;
+    if (!target || !translations[target]) return;
+    document.documentElement.setAttribute('data-ui-lang', target);
+    if (ui) {
+      try { localStorage.setItem('uiLang', target); } catch (e) {}
+    }
+    document.querySelectorAll('.langswitch__link').forEach(function(el){
+      el.removeAttribute('aria-current');
+    });
+    var active = document.querySelector('.langswitch__link[data-ui-lang=\"' + target + '\"]');
+    if (active) {
+      active.setAttribute('aria-current', 'page');
+    }
+    document.querySelectorAll('[data-ui-i18n]').forEach(function(el){
+      var key = el.getAttribute('data-i18n');
+      var value = translations[target][key];
+      if (value) {
+        el.textContent = value;
+      }
+    });
+    updateUiLinks(target);
+    document.querySelectorAll('.langswitch__link[data-ui-lang]').forEach(function(el){
+      el.addEventListener('click', function(){
+        try { localStorage.setItem('uiLang', el.getAttribute('data-ui-lang')); } catch (e) {}
+      });
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', applyUiLang);
+  } else {
+    applyUiLang();
+  }
+})();
+</script>

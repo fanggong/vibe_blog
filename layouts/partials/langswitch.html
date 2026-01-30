@@ -1,0 +1,17 @@
+<nav class="langswitch" aria-label="Language">
+  {{ $currentURL := .RelPermalink }}
+  {{ $translations := dict .Site.Language.Lang $currentURL }}
+  {{ range .AllTranslations }}
+    {{ $translations = merge $translations (dict .Language.Lang .RelPermalink) }}
+  {{ end }}
+  {{ range .Sites }}
+    {{ $lang := .Language.Lang }}
+    {{ $url := index $translations $lang }}
+    {{ if not $url }}
+      {{ $url = printf "%s?ui=%s" $currentURL $lang }}
+    {{ end }}
+    <a class="langswitch__link" href="{{ $url }}" data-ui-lang="{{ $lang }}" hreflang="{{ $lang }}"{{ if eq $.Site.Language.Lang $lang }} aria-current="page"{{ end }}>
+      {{ .Language.LanguageName }}
+    </a>
+  {{ end }}
+</nav>

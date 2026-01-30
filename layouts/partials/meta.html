@@ -1,0 +1,4 @@
+<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Site.Params.home_line }}{{ . }}{{ else }}{{ .Site.Title }}{{ end }}{{ end }}">
+<meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} · {{ .Site.Title }}{{ end }}">
+<meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Site.Params.home_line }}{{ . }}{{ else }}{{ .Site.Title }}{{ end }}{{ end }}">
+<meta property="og:type" content="{{ if .IsHome }}website{{ else }}article{{ end }}">

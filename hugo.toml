@@ -1,0 +1,124 @@
+baseURL = 'https://kendo.sc.cn/'
+
+title = '知行合一'
+defaultContentLanguage = 'zh'
+defaultContentLanguageInSubdir = true
+enableRobotsTXT = true
+
+
+[languages]
+  [languages.zh]
+    languageCode = 'zh-cn'
+    languageName = '中文'
+    weight = 1
+    title = '知行合一'
+    [languages.zh.params]
+      home_line = '不要害怕未知的事物'
+    [languages.zh.menu]
+      [[languages.zh.menu.main]]
+        name = '主页'
+        pageRef = '/'
+        identifier = 'nav_home'
+        weight = 1
+      [[languages.zh.menu.main]]
+        name = '关于'
+        pageRef = 'about'
+        identifier = 'nav_about'
+        weight = 2
+      [[languages.zh.menu.main]]
+        name = '文章'
+        pageRef = 'blog'
+        identifier = 'nav_blog'
+        weight = 3
+      [[languages.zh.menu.main]]
+        name = '项目'
+        pageRef = 'projects'
+        identifier = 'nav_projects'
+        weight = 4
+      [[languages.zh.menu.main]]
+        name = '联系'
+        pageRef = 'contact'
+        identifier = 'nav_contact'
+        weight = 5
+
+  [languages.ja]
+    languageCode = 'ja-jp'
+    languageName = '日本語'
+    weight = 2
+    title = '知行合一'
+    [languages.ja.params]
+      home_line = '不要害怕未知的事物'
+    [languages.ja.menu]
+      [[languages.ja.menu.main]]
+        name = 'ホーム'
+        pageRef = '/'
+        identifier = 'nav_home'
+        weight = 1
+      [[languages.ja.menu.main]]
+        name = '私について'
+        pageRef = 'about'
+        identifier = 'nav_about'
+        weight = 2
+      [[languages.ja.menu.main]]
+        name = 'ブログ'
+        pageRef = 'blog'
+        identifier = 'nav_blog'
+        weight = 3
+      [[languages.ja.menu.main]]
+        name = 'プロジェクト'
+        pageRef = 'projects'
+        identifier = 'nav_projects'
+        weight = 4
+      [[languages.ja.menu.main]]
+        name = '連絡'
+        pageRef = 'contact'
+        identifier = 'nav_contact'
+        weight = 5
+
+  [languages.en]
+    languageCode = 'en-us'
+    languageName = 'English'
+    weight = 3
+    title = '知行合一'
+    [languages.en.params]
+      home_line = '不要害怕未知的事物'
+    [languages.en.menu]
+      [[languages.en.menu.main]]
+        name = 'Home'
+        pageRef = '/'
+        identifier = 'nav_home'
+        weight = 1
+      [[languages.en.menu.main]]
+        name = 'About'
+        pageRef = 'about'
+        identifier = 'nav_about'
+        weight = 2
+      [[languages.en.menu.main]]
+        name = 'Blog'
+        pageRef = 'blog'
+        identifier = 'nav_blog'
+        weight = 3
+      [[languages.en.menu.main]]
+        name = 'Projects'
+        pageRef = 'projects'
+        identifier = 'nav_projects'
+        weight = 4
+      [[languages.en.menu.main]]
+        name = 'Contact'
+        pageRef = 'contact'
+        identifier = 'nav_contact'
+        weight = 5
+
+[params]
+  math = true
+
+[markup]
+  [markup.highlight]
+    noClasses = false
+  [markup.goldmark]
+    [markup.goldmark.extensions]
+      [markup.goldmark.extensions.passthrough]
+        enable = true
+        [markup.goldmark.extensions.passthrough.delimiters]
+          block = [['$$','$$'], ['\\[','\\]']]
+          inline = [['$','$'], ['\\(','\\)']]

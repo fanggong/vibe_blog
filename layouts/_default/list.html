@@ -1,0 +1,49 @@
+{{ define "main" }}
+<section class="section">
+  <header class="section__header">
+    <h1 class="section__title">{{ .Title }}</h1>
+    {{ if not (or (eq .Section "blog") (eq .Section "projects")) }}
+      {{ with .Description }}<p class="section__desc">{{ . }}</p>{{ end }}
+    {{ end }}
+  </header>
+  <div class="list">
+    {{ $pages := .Pages }}
+    {{ if or (eq .Section "blog") (eq .Section "projects") }}
+      {{ if not $pages }}
+        {{ $section := .Section }}
+        {{ $pages = slice }}
+        {{ range .Sites }}
+          {{ range where .RegularPages "Section" $section }}
+            {{ $pages = $pages | append . }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
+      {{ $pages = sort $pages "Date" "desc" }}
+    {{ end }}
+    {{ if $pages }}
+      {{ range $i, $p := $pages }}
+        {{ $delay := mul (add $i 1) 0.06 }}
+        <article class="card" style="--d: {{ printf "%.2fs" $delay }}">
+          <h2 class="card__title"><a href="{{ $p.RelPermalink }}" data-ui-keep>{{ $p.Title }}</a></h2>
+          {{ $cats := $p.Params.categories }}
+          {{ if or $p.Date $cats }}
+            <div class="card__meta-row">
+              {{ with $p.Date }}<time class="card__meta" datetime="{{ .Format "2006-01-02" }}">{{ .Format "2006-01-02" }}</time>{{ end }}
+              {{ if and $p.Date $cats }}<span class="card__meta-sep">·</span>{{ end }}
+              {{ with $cats }}
+                <span class="card__tags">
+                  {{ range $i, $cat := . }}{{ if $i }}<span class="card__tag-sep">/</span>{{ end }}<span class="card__tag">{{ $cat }}</span>{{ end }}
+                </span>
+              {{ end }}
+            </div>
+          {{ end }}
+          {{ $desc := $p.Params.description }}
+          <p class="card__summary">{{ if $desc }}{{ $desc }}{{ else }}{{ $p.Summary | plainify }}{{ end }}</p>
+        </article>
+      {{ end }}
+    {{ else }}
+      <p class="empty" data-ui-i18n data-i18n="no_content">{{ i18n "no_content" }}</p>
+    {{ end }}
+  </div>
+</section>
+{{ end }}

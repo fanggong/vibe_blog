@@ -1,0 +1,47 @@
+[latest_posts]
+other = "最新文章"
+
+[latest_projects]
+other = "最新项目"
+
+[view_all]
+other = "查看全部"
+
+[no_posts]
+other = "暂无文章"
+
+[no_projects]
+other = "暂无项目"
+
+[no_content]
+other = "暂无内容"
+
+[project_role]
+other = "角色"
+
+[project_stack]
+other = "技术"
+
+[project_link]
+other = "链接"
+
+[toc_title]
+other = "目录"
+
+[nav_home]
+other = "主页"
+
+[nav_about]
+other = "关于"
+
+[nav_blog]
+other = "文章"
+
+[nav_projects]
+other = "项目"
+
+[nav_contact]
+other = "联系"
+
+[post_categories]
+other = "分类"

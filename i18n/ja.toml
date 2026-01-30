@@ -1,0 +1,47 @@
+[latest_posts]
+other = "最新記事"
+
+[latest_projects]
+other = "最新プロジェクト"
+
+[view_all]
+other = "すべて見る"
+
+[no_posts]
+other = "記事はまだありません"
+
+[no_projects]
+other = "プロジェクトはまだありません"
+
+[no_content]
+other = "コンテンツはまだありません"
+
+[project_role]
+other = "役割"
+
+[project_stack]
+other = "技術"
+
+[project_link]
+other = "リンク"
+
+[toc_title]
+other = "目次"
+
+[nav_home]
+other = "ホーム"
+
+[nav_about]
+other = "私について"
+
+[nav_blog]
+other = "ブログ"
+
+[nav_projects]
+other = "プロジェクト"
+
+[nav_contact]
+other = "連絡"
+
+[post_categories]
+other = "カテゴリ"

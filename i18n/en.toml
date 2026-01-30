@@ -1,0 +1,47 @@
+[latest_posts]
+other = "Latest Posts"
+
+[latest_projects]
+other = "Latest Projects"
+
+[view_all]
+other = "View all"
+
+[no_posts]
+other = "No posts yet."
+
+[no_projects]
+other = "No projects yet."
+
+[no_content]
+other = "No content yet."
+
+[project_role]
+other = "Role"
+
+[project_stack]
+other = "Stack"
+
+[project_link]
+other = "Link"
+
+[toc_title]
+other = "Contents"
+
+[nav_home]
+other = "Home"
+
+[nav_about]
+other = "About"
+
+[nav_blog]
+other = "Blog"
+
+[nav_projects]
+other = "Projects"
+
+[nav_contact]
+other = "Contact"
+
+[post_categories]
+other = "Categories"
